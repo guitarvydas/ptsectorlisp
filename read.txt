@@ -15,7 +15,7 @@ function Read () {
 	  c = getc ()
 	while c is whiteSpace ();
       }
-      return Read ();
+    return Read ();
   } else {
     return ReadAtom (c);
   }
