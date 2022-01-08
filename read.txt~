@@ -1,0 +1,28 @@
+next char can be
+'('
+EOF
+whitespace
+anything else
+
+function Read () {
+  c = getc ();
+  if (c == '(') {
+    return ReadList ();
+  } else if (c is whiteSpace ()) {
+    do
+      c = getc ()
+    while c is whiteSpace ();
+    return Read ();
+  } else {
+    return ReadAtom (c);
+  }
+}
+
+function ReadAtom (c) {
+  put c into atom buffer;
+  c = getc ()
+  while  c is not '(' nor EOF nor whiteSpace {
+    put c into atom buffer;
+  }
+    
+  
