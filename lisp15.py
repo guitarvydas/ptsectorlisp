@@ -13,7 +13,7 @@ listindex = (-1)
 cx = listindex
 
 listmemory = [
-  "<illegal>",
+  0, 0,  # fillers
   6, -4,
   30, 0
 ]
@@ -39,7 +39,8 @@ def getmem (i):
   if (i >= 0):
     return atommemory [i]
   else:
-    return listmemory [-i]
+    x = -i
+    return listmemory [x]
     
 
 def copy (x, m, k):
@@ -61,14 +62,11 @@ def gc (A, x):
   return x
 
 def car (x):
-  if (x < 0):
-    return getmem (x - 1)
-  else:
-    return getmem (x)
+  return getmem (x)
 
 def cdr (x):
   if (x < 0):
-    return getmem (x)
+    return getmem (x - 1)
   else:
     return getmem (x + 1)
 
@@ -77,6 +75,7 @@ def cons (a, b):
   putl (a)
 
 def eval (e, a):
+  print (f'eval ({e}, {a})')
   A = cx
   if (e == 0):
       return e
@@ -90,30 +89,35 @@ def eval (e, a):
       return gc (A, apply (car (e), evlis (cdr (e), a), a))
 
 def evcon (c, a):
+    print (f'evcon ({c}, {a})')
     if (eval (car (car (c)), a)):
         return eval (car (cdr (car (c))), a)
     else:
         return evcon (cdr (c), a)
 
 def evlis (m, a):
+    print (f'evlis ({m}, {a})')
     if (m == 0):
         return 0
     else:
         return cons (eval (car (m), a), evlis (cdr (m), a))
 
 def assoc (x, y):
+    print (f'assoc ({x}, {y})')
     if (x == car (car (y))):
         return cdr (car (y))
     else:
         return assoc (x, cdr (y))
 
 def pairlis (x, y, a):
+  print (f'pairlis({x}, {y}, {a})')
   if (x == 0):
     return 0
   else:
     return cons (cons (car (x), car (y)), pairlis (cdr (x), cdr (y), a))
 
 def apply (f, x, a):
+  print (f'apply ({f}, {x}, {a})')
   if (f < 0):
     return eval (car (cdr (cdr (f))), pairlis (car (cdr (f)), x, a))
   elif (f == kEq):
@@ -129,4 +133,5 @@ def apply (f, x, a):
   else:
     return apply (assoc (f, a), x, a)
 
-eval (-2)
+r = eval (-2, 0)
+print (r)

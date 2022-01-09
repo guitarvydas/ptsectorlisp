@@ -81,6 +81,10 @@ The 6 basic functions of lisp are:
 
 If `f` is an atom (i.e. not a list) but is not one of the builtins, `Apply` assumes that `f` is a bound parameter.  It looks up the value of `f` in the environment, then tries again (applying the value-of-f to e in the same environment).
 
+[[Example 1]]
+[[Example 2]]
+
+
  ## GC
 
 Stack before evaluation == `A`
