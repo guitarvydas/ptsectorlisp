@@ -1,5 +1,39 @@
-listmemory = []
-atommemory = []
+from os import CLD_EXITED
+
+
+kQuote = 6
+kEq = 0
+kCond = 0
+kCons = 0
+kAtom = 0
+kCar = 0
+kCdr = 0
+
+listindex = (-1)
+cx = listindex
+
+listmemory = [
+  "<illegal>",
+  6, -4,
+  30, 0
+]
+
+def putl (v):
+  global listindex
+  listmemory [listindex] = v
+  listindex = listindex - 1
+
+
+atommemory = [
+  "N", 2,
+  "I", 4,
+  "L", 0,
+  "Q", 8,
+  "U", 10,
+  "O", 12,
+  "T", 14,
+  "E", 0
+  ]
 
 def getmem (i):
   if (i >= 0):
@@ -7,13 +41,40 @@ def getmem (i):
   else:
     return listmemory [-i]
     
+
+def copy (x, m, k):
+  if (x < m):
+    return x
+  else:
+    return cons (copy (car (x), m, k), copy (cdr (x) , m , k)) + k
+
+def gc (A, x):
+  global cx
+  B = cx
+  x = copy (x, A, A - B)
+  C = cx
+  while (C < B):
+    A = A - 1
+    B = B - 1
+    set (A, B)
+  cx = A
+  return x
+
 def car (x):
-  return getmem (x)
+  if (x < 0):
+    return getmem (x - 1)
+  else:
+    return getmem (x)
 
 def cdr (x):
-  return getmem (x + 1)
+  if (x < 0):
+    return getmem (x)
+  else:
+    return getmem (x + 1)
 
 def cons (a, b):
+  putl (b)
+  putl (a)
 
 def eval (e, a):
   A = cx
@@ -41,29 +102,31 @@ def evlis (m, a):
         return cons (eval (car (m), a), evlis (cdr (m), a))
 
 def assoc (x, y):
-    if (x == car (car (y)):
+    if (x == car (car (y))):
         return cdr (car (y))
     else:
         return assoc (x, cdr (y))
 
-  def pairlis (x, y, a):
-    if (x == 0):
-      return 0
-    else:
-      return cons (cons (car (x), car (y)), pairlis (cdr (x), cdr (y), a))
+def pairlis (x, y, a):
+  if (x == 0):
+    return 0
+  else:
+    return cons (cons (car (x), car (y)), pairlis (cdr (x), cdr (y), a))
 
-  def apply (f, x, a):
-    if (f < 0):
-      return eval (car (cdr (cdr (f))), pairlis (car (cdr (f)), x, a))
-    elif (f == kEq):
-      return car (x) == car (cdr (x))
-    elif (f == kCons):
-      return cons (car (x), car (cdr (x)))
-    elif (f == kAtom):
-      return (car (x) >= 0)
-    elif (f == kCar):
-      return car (car (x))
-    elif (f == kCdr):
-      return cdr (car (x))
-    else:
-      return apply (assoc (f, a), x, a)
+def apply (f, x, a):
+  if (f < 0):
+    return eval (car (cdr (cdr (f))), pairlis (car (cdr (f)), x, a))
+  elif (f == kEq):
+    return car (x) == car (cdr (x))
+  elif (f == kCons):
+    return cons (car (x), car (cdr (x)))
+  elif (f == kAtom):
+    return (car (x) >= 0)
+  elif (f == kCar):
+    return car (car (x))
+  elif (f == kCdr):
+    return cdr (car (x))
+  else:
+    return apply (assoc (f, a), x, a)
+
+eval (-2)
