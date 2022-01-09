@@ -12,11 +12,25 @@ kCdr = 0
 listindex = (-1)
 cx = listindex
 
-listmemory = [
+example1_listmemory = [
   0, 0,  # fillers
   6, -4,
   30, 0
 ]
+
+example2_listmemory = [
+  0, 0,  # fillers
+  6, -4,
+  30, 0,
+  32, 0,
+  16, -10,
+  -6, -12,
+  32, 0,
+  -8, 0,
+  -2, -14
+]
+
+listmemory = example2_listmemory
 
 def putl (v):
   global listindex
@@ -86,7 +100,8 @@ def eval (e, a):
   elif (kCond == car (e)):
       return evcon (cdr (e), a)
   else:
-      return gc (A, apply (car (e), evlis (cdr (e), a), a))
+    evl = evlis (cdr (e), a)
+    return gc (A, apply (car (e), evl, a))
 
 def evcon (c, a):
     print (f'evcon ({c}, {a})')
@@ -133,5 +148,7 @@ def apply (f, x, a):
   else:
     return apply (assoc (f, a), x, a)
 
-r = eval (-2, 0)
+#r = eval (-2, 0)
+#print (r)
+r = eval (-16, 0)
 print (r)
