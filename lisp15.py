@@ -9,33 +9,43 @@ kAtom = 0
 kCar = 0
 kCdr = 0
 
-listindex = (-1)
-cx = listindex
+listindex = None # this needs to be set before run
+nextConsCell = None
 
 example1_listmemory = [
   0, 0,  # fillers
   6, -4,
-  30, 0
+  28, 0
 ]
 
 example2_listmemory = [
   0, 0,  # fillers
   6, -4,
-  30, 0,
-  32, 0,
+  28, 0,
   16, -10,
-  -6, -12,
-  32, 0,
-  -8, 0,
-  -2, -14
+  30, 0,
+  -8, -12,
+  30, 0,
+  -6, -16,
+  -2, 0,
+  0, 0,
+  0, 0,
+  0, 0,
+  0, 0,
+  0, 0,
+  0, 0,
+  0, 0,
 ]
 
 listmemory = example2_listmemory
 
 def putl (v):
   global listindex
-  listmemory [listindex] = v
-  listindex = listindex - 1
+  global listmemory
+  assert (listindex < 0)
+  index = -listindex
+  listmemory [index] = v
+  listindex = - (index + 1)
 
 
 atommemory = [
@@ -46,7 +56,15 @@ atommemory = [
   "U", 10,
   "O", 12,
   "T", 14,
-  "E", 0
+  "E", 0,
+  "L", 18,
+  "A", 20,
+  "M", 22,
+  "B", 24,
+  "D", 26,
+  "A", 0,
+  "A", 0,
+  "X", 0
   ]
 
 def getmem (i):
@@ -56,24 +74,108 @@ def getmem (i):
     x = -i
     return listmemory [x]
     
+def isNull (x):
+  return (x == 0)
+
+def isList (x):
+  return (x < 0)
+
+def isAtom (x):
+  return (x >= 0)
+
+def allocatedEarlier (x, other):
+  return (x <= other)
+
+def terpri ():
+  print ("")
+
+def printc (x):
+  print (x, end="")
+
+def pratom (x):
+  while (not isNull (x)):
+    printc (car (x))
+    x = cdr (x)
+  
+def prlpar ():
+  print ("(", end="")
+
+def prrpar ():
+  print (")", end="")
+
+def prdot ():
+  print (" . ", end="")
+
+def prspaced (x):
+  print (" ", end="")
+  pr (x)
+
+def mapc_prspaced (x):
+  while (not isNull (x)):
+    carx = car (x)
+    cdrx = cdr (x)
+    prspaced (carx)
+    x = cdrx
+
+def prlist (x):
+  prlpar ()
+  pr (car (x))
+  if (isNull (cdr (x))):
+    prrpar ()
+  elif (isAtom (cdr (x)) and (not isNull (cdr (x)))):
+    prdot ()
+    pr (cdr (x))
+    prrpar ()
+  else:
+    mapc_prspaced (cdr (x))
+    prrpar ()
+
+
+def lispPrint (x): # pr
+  if (isAtom (x)):
+    pratom (x)
+  else:
+    prlist (x)
+
+def pr (x):
+  lispPrint (x)
 
 def copy (x, m, k):
-  if (x < m):
+  # print (f'copy {x} {m} {k}')
+  if (isAtom (x)):
+    return x
+  if (allocatedEarlier (x, m)):
     return x
   else:
     return cons (copy (car (x), m, k), copy (cdr (x) , m , k)) + k
 
-def gc (A, x):
-  global cx
-  B = cx
-  x = copy (x, A, A - B)
-  C = cx
-  while (C < B):
-    A = A - 1
-    B = B - 1
-    set (A, B)
-  cx = A
-  return x
+def moveListMemory (Dest, Src, blockSize):
+  i = blockSize
+  while (i > 0):
+    listmemory [Dest + i] = listmemory [Src + 1]
+    i = i - 1
+  return Dest
+
+def gc (A, result):  
+  global nextConsCell
+  # print (f'gc {A} {nextConsCell}')
+  if (isAtom (result)):
+    return result
+  else:
+    # atomic
+    B = nextConsCell
+    offset = abs (A - B)
+    copy (result, A, offset)
+    C = nextConsCell
+    # begin scope
+    newResult = C
+    blockSize = abs (nextConsCell - B)
+    Aprime = moveListMemory (A + blockSize, nextConsCell, blockSize)
+    assert (newResult == Aprime)
+    nextConsCell = Aprime
+    # end scope
+    return newResult
+    # end atomic
 
 def car (x):
   return getmem (x)
@@ -85,15 +187,21 @@ def cdr (x):
     return getmem (x + 1)
 
 def cons (a, b):
-  putl (b)
+  global listindex
+  p = listindex
   putl (a)
+  putl (b)
+  return p
 
 def eval (e, a):
-  print (f'eval ({e}, {a})')
-  A = cx
+  global nextConsCell
+  # print (f'eval ({e}, {a})')
+  # lispPrint (e)
+  # terpri ()
+  A = nextConsCell
   if (e == 0):
       return e
-  elif (e > 0):
+  elif (isAtom (e)):
       return assoc (e, a)
   elif (kQuote == car (e)):
       return car (cdr (e))
@@ -101,40 +209,72 @@ def eval (e, a):
       return evcon (cdr (e), a)
   else:
     evl = evlis (cdr (e), a)
-    return gc (A, apply (car (e), evl, a))
+    # print ("Evlis returned to Eval")
+    # lispPrint (evl)
+    # terpri ()
+    returnFromApply = apply (car (e), evl, a)
+    # print ("Apply returned to Eval")
+    # lispPrint (returnFromApply)
+    # terpri ()
+    returnFromEval = gc(A, returnFromApply)
+    # print ("Eval returns")
+    # lispPrint (returnFromEval)
+    # terpri ()
+    return returnFromEval
 
 def evcon (c, a):
-    print (f'evcon ({c}, {a})')
+    # print (f'evcon ({c}, {a})')
+    # lispPrint (c)
+    # terpri ()
     if (eval (car (car (c)), a)):
         return eval (car (cdr (car (c))), a)
     else:
         return evcon (cdr (c), a)
 
 def evlis (m, a):
-    print (f'evlis ({m}, {a})')
+    # print (f'evlis ({m}, {a})')
+    # lispPrint (m)
+    # terpri ()
     if (m == 0):
         return 0
     else:
-        return cons (eval (car (m), a), evlis (cdr (m), a))
+        exprFirst = eval (car (m), a)
+        exprRest = evlis (cdr (m), a)
+        result = cons (exprFirst, exprRest)
+        return result
 
 def assoc (x, y):
-    print (f'assoc ({x}, {y})')
+    # print (f'assoc ({x}, {y})')
+    # lispPrint (x)
+    # terpri ()
+    # lispPrint (y)
+    # terpri ()
     if (x == car (car (y))):
         return cdr (car (y))
     else:
         return assoc (x, cdr (y))
 
-def pairlis (x, y, a):
-  print (f'pairlis({x}, {y}, {a})')
-  if (x == 0):
+def pairlis (formals, actuals, a):
+  # print (f'pairlis({formals}, {actuals}, {a})')
+  if (formals == 0):
     return 0
   else:
-    return cons (cons (car (x), car (y)), pairlis (cdr (x), cdr (y), a))
+    firstBinding = cons (car (formals), car (actuals))
+    restBindings = pairlis (cdr (formals), cdr (actuals), a)
+    return cons (firstBinding, restBindings)
 
 def apply (f, x, a):
-  print (f'apply ({f}, {x}, {a})')
-  if (f < 0):
-    return eval (car (cdr (cdr (f))), pairlis (car (cdr (f)), x, a))
+  # print (f'apply ({f}, {x}, {a})')
+  # lispPrint (f)
+  # terpri ()
+  # lispPrint (x)
+  # terpri ()
+  # lispPrint (a)
+  # terpri ()
+  if (isList (f)):
+    newEnv = pairlis (car (cdr (f)), x, a)
+    lambdaForm = car (cdr (cdr (f)))
+    return eval (lambdaForm, newEnv)
   elif (f == kEq):
     return car (x) == car (cdr (x))
   elif (f == kCons):
@@ -148,7 +288,10 @@ def apply (f, x, a):
   else:
     return apply (assoc (f, a), x, a)
 
-#r = eval (-2, 0)
-#print (r)
-r = eval (-16, 0)
-print (r)
+#listindex = -6 # example 1
+#r = eval (-2, 0) # example 1
+listindex = -18
+nextConsCell = listindex
+r = eval (-14, 0) # example 2
+lispPrint (r)
+terpri ()

@@ -9,7 +9,7 @@
             </Appearance>
             <String>sector lisp</String>
         </Note>
-        <Note ID="1" FontSize="12.0" Position="276.463074,146.385452" Width="216.0">
+        <Note ID="1" FontSize="12.0" Position="232.918457,169.904846" Width="216.0">
             <Appearance>
                 <Alignment>Left</Alignment>
                 <Border Weight="1"></Border>
@@ -17,7 +17,7 @@
             </Appearance>
             <String>https://justine.lol/sectorlisp2/#listing</String>
         </Note>
-        <Note ID="2" FontSize="12.0" Position="101.32019,404.419312" Width="224.0">
+        <Note ID="2" FontSize="12.0" Position="101.0,404.0" Width="224.0">
             <Appearance>
                 <Alignment>Left</Alignment>
                 <Border Weight="1"></Border>
@@ -25,9 +25,49 @@
             </Appearance>
             <String>reading Garbage Collection section</String>
         </Note>
+        <Note ID="3" FontSize="12.0" Position="311.503662,127.043365" Width="200.0">
+            <Appearance>
+                <Alignment>Left</Alignment>
+                <Border Weight="1">0.669404 0.885265 0.567007</Border>
+                <Fill>0.743783 0.983628 0.630008</Fill>
+            </Appearance>
+            <String>move movie attempt to linux via dropbox</String>
+        </Note>
+        <Note ID="5" FontSize="12.0" Position="358.097656,273.35141" Width="115.0">
+            <Appearance>
+                <Alignment>Left</Alignment>
+                <Border Weight="1"></Border>
+                <Fill>0.751286 0.937851 0.984426</Fill>
+            </Appearance>
+            <String>finish sectorlisp.py</String>
+        </Note>
+        <Note ID="6" FontSize="12.0" Position="384.627991,310.312134" Width="93.0">
+            <Appearance>
+                <Alignment>Left</Alignment>
+                <Border Weight="1"></Border>
+                <Fill>0.751286 0.937851 0.984426</Fill>
+            </Appearance>
+            <String>understand gc</String>
+        </Note>
+        <Note ID="7" FontSize="12.0" Position="306.867004,233.642426" Width="94.0">
+            <Appearance>
+                <Alignment>Left</Alignment>
+                <Border Weight="1"></Border>
+                <Fill>0.751286 0.937851 0.984426</Fill>
+            </Appearance>
+            <String>repair diagram</String>
+        </Note>
+        <Note ID="8" FontSize="12.0" Position="412.0,345.0" Width="105.0">
+            <Appearance>
+                <Alignment>Left</Alignment>
+                <Border Weight="1"></Border>
+                <Fill>0.751286 0.937851 0.984426</Fill>
+            </Appearance>
+            <String>video to youtube</String>
+        </Note>
     </Notes>
     <BackgroundShapes></BackgroundShapes>
-    <AutoFit>0</AutoFit>
+    <AutoFit>0, 5-8</AutoFit>
     <NoteStyles>
         <Style Name="Bubble (Blue)" ID="F019530C-3494-4415-9276-08B8C96B4525" AffectFontStyle="No" AffectAlignment="No" AffectTextColor="No" AffectNoteBody="Yes" AffectFade="No">
             <BorderThickness>1</BorderThickness>
