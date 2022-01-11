@@ -1,0 +1,147 @@
+## types
+type atom
+type sexpr = atom | list
+type list = [sexpr]
+type atomlist = [atom]
+type environment = [pair]
+type pair
+type condition
+type conditions = [condition]
+type lambda = atom atomlist sexpr
+
+## main functions
+  func car (sexpr) car aka first
+  end func car
+  
+  func cdr (sexpr) cdr aka rest
+  end func cdr
+  
+  func cons (sexpr) cons aka new aka construct
+  end func cons
+
+  func eval (sexpr environment)
+    e aka sexp
+  end func eval
+
+  func evcon (conditions environment) aka eval-condition
+  end func evcon
+
+  func evlis (list environment)
+  end func evlis
+
+  func assoc (atom environment) assoc aka lookup-name-in-alist
+  end func assoc
+
+  func pairlis (formals actuals env) pairlis aka bind-actuals-to-formals
+  end fund pairlis
+
+  func apply (lambda sexpr environment)
+  end func apply
+  
+## lisp print
+  proc terpri
+    raw python print ("") end raw
+    raw cl (format *standard-output* "~%") end raw
+  end proc terpri
+
+  proc print (x)
+    raw python print (x, end="") end raw
+    raw cl (format *standard-output* "~a" $x) end raw
+  end proc print
+
+  proc pratom (x)
+    raw python
+      while (not isNull (x)):
+        print (car (x))
+ 	x = cdr (x)
+    end raw
+    raw cl
+      (loop ... )
+    end raw
+  end proc pratom
+  
+  proc prlpar
+    raw python print ("(", end="") end raw
+  end proc prlpar    
+
+  proc prrpar
+    raw python print (")", end="") end raw
+  end proc prrpar    
+
+  proc prdot
+    raw python print (" . ", end="") end raw
+  end proc prdot 
+
+  proc prspaced (x)
+    raw python print (" ", end="") end raw
+    pr (x)
+  end proc prspaced 
+
+  proc mapc-prspaced (x)
+    raw python
+      while (not null? (x))
+        prspaced (car (x))
+	x = cdr (x)
+    end raw
+  end proc mapc-prspaced
+
+  proc prlist (x)
+    prlpar
+    pr (car (x))
+    cond
+      null? (cdr (x)) : prrpar
+      atom? (cdr (x)) : prdot pr (cdr (x)) prrpar
+      else            : mapc-prspaced (cdr (x)) prrpar
+    end cond
+  end proc prlist
+
+  proc pr (x)
+    cond
+      atom? (x) : pratom (x)
+      else      : prlist (x)
+    end cond
+  end proc pr
+
+## memory mechanisms
+### atoms
+atom "nil"
+atom "quote"
+atom "eq"
+atom "cond"
+atom "atom"
+atom "car"
+atom "cdr"
+
+### memory
+  var listSP
+  var nextConsCell aka cx
+
+  proc moveListMemory (Dest, Src, blockSize)
+    foreign
+  end proc moveListMemory
+
+  proc gc (previousSP, result)
+    foreign
+  end proc gc
+
+  func getmem (index)
+    if (index >= 0) then
+      atommemory [index]
+    else
+      listmemory [-index]
+    end if
+  end func getmem
+
+  predicate null? (x)
+    x == 0
+  end predicate null?
+
+  predicate list? (x)
+    x <0
+  end predicate list?
+
+  predicate allocatedEarlier? (x, other)
+    x <= other
+  end predicate allocatedEarlier?
+
+  

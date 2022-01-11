@@ -169,29 +169,6 @@ Evcon should show `((e1 . body1) (e2 . body2) ...)`.  Dots must have spaces arou
 
 The addresses in the example 2 video are incorrect - they have been corrected in sectorlisp.drawio.  Notably, Eval should be called with -14, not -16.
 
+
 # Garbage Collection
-- all cells allocated in strict stack-like order
-- therefore, all cells that are part of a list are allocated earlier in the stack than the list itself
-- GC(A,x) where A is the previous SP and x points to the result cell
-- the only function that can generate CONS cells is CONS()
-	- CONS is called by: PAIRLIS, EVLIS
-- any result is (a) a pointer into Atom space, or, (b) a pointer into list space
-- in the (b) case, the list can contain only pointers into Atom space or into list space ; pointers into list space will always be CONS cells that were allocated BEFORE the result pointer 
-- the above assumptions are valid for 1-CPU (1-Thread) ; for >1 CPUs (>1 Threads) we must make the STACK (bookmarks) explicit - the stack is a free variable (aka global variable) which is inherited by all functions in the same Thread (CALL/RETURN uses this free variable) ; Operating systems (e.g. Linux, Windows, MacOS, etc.) create objects (Threads) that implicitly provides a STACK free variable to all functions within the same objects ; corollary - we feel that "multitasking is hard" because the STACK is used like a global variable (implicit, not explicit)
-- every call to Eval does GC, hence, intermediate results in Evlis are always compacted
-- Eval calls GC when it applies a function to args, it does not call GC when processing a special form
-
-```
-function Copy(x, m, k) {
-  return x < m ? Cons(Copy(Car(x), m, k),
-                      Copy(Cdr(x), m, k)) + k : x;
-}
-
-function Gc(A, x) {
-  var C, B = cx;
-  x = Copy(x, A, A - B), C = cx;
-  while (C < B) Set(--A, Get(--B));
-  return cx = A, x;
-}
-```
-
+[[Garbage Collection]]
