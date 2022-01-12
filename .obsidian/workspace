@@ -9,8 +9,20 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Garbage Collection.md",
-            "mode": "preview",
+            "file": "Notes from TORLISP Meeting Jan 11, 2022.md",
+            "mode": "source",
+            "source": true
+          }
+        }
+      },
+      {
+        "id": "9edca9e0c6547cc3",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Notes from TORLISP Meeting Jan 11, 2022.md",
+            "mode": "source",
             "source": true
           }
         }
@@ -69,7 +81,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Garbage Collection.md",
+                "file": "Notes from TORLISP Meeting Jan 11, 2022.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -87,9 +99,14 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "8206e3c4d963f6b8",
+  "active": "9edca9e0c6547cc3",
   "lastOpenFiles": [
+    "Notes from TORLISP Meeting Jan 11, 2022.md",
+    "Efficiency.md",
+    "Code Bloat.md",
     "Garbage Collection.md",
+    "Compilation is an Optimization.md",
+    "FEXPRS.md",
     "README.md",
     "Example 2.md",
     "Example 1.md"
