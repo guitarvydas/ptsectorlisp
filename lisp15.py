@@ -382,5 +382,5 @@ def ReadList (input):
 #lispPrint (r)
 #terpri ()
 
-Read ("B")
+Read ("BCD")
 pr (0)
