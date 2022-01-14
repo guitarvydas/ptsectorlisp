@@ -329,14 +329,27 @@ def apply (f, x, a):
   else:
     return apply (assoc (f, a), x, a)
 
-def Read (s):
+def ReadString (s):
   arr = list(s)
   index = 0
   input = {"index": index, "characters": arr}
-  if ("(" == arr [index]):
+  return Read (input)
+
+def Read (input):
+  global atomindex
+  savedIndex = atomindex
+  if ("(" == input["characters"][input["index"]]):
+    input ["index"] += input ["index"] + 1
+    Read (input)
+    if (")" == input["characters"][input["index"]]):
+      input ["index"] += 1
+    else:
+      parsefail (input)
     modifiedInput = ReadList (input)
+    return savedIndex
   else:
     modifiedInput = ReadAtom (input)
+    return savedIndex
 
 def ReadAtom (input):
   while (not terminated (input)):
@@ -373,6 +386,9 @@ def pokeAtom (c):
 def ReadList (input):
   assert False
 
+def parsefail (input):
+  assert (False)
+
 #listindex = -6 # example 1
 #r = eval (-2, 0) # example 1
 
@@ -382,5 +398,7 @@ def ReadList (input):
 #lispPrint (r)
 #terpri ()
 
-Read ("BCD")
+a1 = ReadString ("BCD")
+a2 = ReadString ("BCD")
+l1 = ReadString ("(E)")
 pr (0)

@@ -2,11 +2,26 @@
 - a lisp that fits in less than 512 bytes (a disk sector)
 - [sector lisp](https://justine.lol/sectorlisp2/#listing)
 
+## Introduction Movies
 ![[1 Screen Recording 2022-01-09 at 4.29.17 PM.mp4]]
 
 
 ![[2 Screen Recording 2022-01-09 at 4.30.36 PM.mp4]]
+## Youtube
+https://guitarvydas.github.io/2022/01/13/GC-in-SectorLisp.html
 
+## Snapshots
+(from the youtube video)
+
+![[gc 1.png]]
+![[gc 2.png]]
+![[gc 3 (red).png]]
+![[gc 4 (aligned).png]]
+![[gc 5 first copy.png]]
+![[gc 6 offset copy.png]]
+![[gc 7 move.png]]
+![[gc 8 move completed.png]]
+![[gc 9 finished.png]]
 # Overview
 ![[3 Overview Screen Recording 2022-01-09 at 4.31.50 PM.mp4]]
 ## Memory

@@ -10,7 +10,7 @@
           "type": "markdown",
           "state": {
             "file": "README.md",
-            "mode": "source",
+            "mode": "preview",
             "source": true
           }
         }
@@ -102,6 +102,7 @@
   "active": "9edca9e0c6547cc3",
   "lastOpenFiles": [
     "README.md",
+    "snapsots/gc 1.png",
     "Code Bloat.md",
     "Efficiency.md",
     "Thoughts About SectorLisp Inspired by TORLISP January 11, 2022.md",
@@ -109,7 +110,6 @@
     "Anatomy of Lisp.md",
     "Hacker Language.md",
     "Easy UX or Consistency?.md",
-    "Untitled.md",
-    "Garbage Collection.md"
+    "Untitled.md"
   ]
 }
