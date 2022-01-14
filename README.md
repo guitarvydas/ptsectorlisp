@@ -38,6 +38,8 @@ Cons cells grow in address away from 0000, Strings (atoms) grow away from 0000 i
 This scheme does not result in defragmented memory.
 
 ![[7 Allocation Screen Recording 2022-01-09 at 4.44.04 PM.mp4]]
+
+[[LAMBDA Means Stack Allocation]]
 # Lessons
 8-bit (byte) addresses are more efficient (space-wise) than 16-bit addresses, than 32-bit addresses than 64-bit addresses.
 
@@ -165,10 +167,10 @@ If `f` is an atom (i.e. not a list) but is not one of the builtins, `Apply` assu
 # Full Video
 
 # Errata
-Evcon should show `((e1 . body1) (e2 . body2) ...)`.  Dots must have spaces around them.  In the video, I show `e2.` which should be `e2 .`.
+Evcon video should show `((e1 . body1) (e2 . body2) ...)`.  Dots must have spaces around them.  In the video, I show `e2.` which should be `e2 .`.
 
 The addresses in the example 2 video are incorrect - they have been corrected in sectorlisp.drawio.  Notably, Eval should be called with -14, not -16.
 
 
-# Garbage Collection
-[[Garbage Collection]]
+# See Also
+[[Notes from TORLISP Meeting Jan 11, 2022]]

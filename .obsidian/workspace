@@ -4,19 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "8206e3c4d963f6b8",
+        "id": "9edca9e0c6547cc3",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Notes from TORLISP Meeting Jan 11, 2022.md",
+            "file": "README.md",
             "mode": "source",
             "source": true
           }
         }
       },
       {
-        "id": "9edca9e0c6547cc3",
+        "id": "bf48ec038890b4fe",
         "type": "leaf",
         "state": {
           "type": "markdown",
@@ -81,7 +81,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Notes from TORLISP Meeting Jan 11, 2022.md",
+                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -101,14 +101,15 @@
   },
   "active": "9edca9e0c6547cc3",
   "lastOpenFiles": [
-    "Notes from TORLISP Meeting Jan 11, 2022.md",
-    "Efficiency.md",
-    "Code Bloat.md",
-    "Garbage Collection.md",
-    "Compilation is an Optimization.md",
-    "FEXPRS.md",
     "README.md",
-    "Example 2.md",
-    "Example 1.md"
+    "Code Bloat.md",
+    "Efficiency.md",
+    "Thoughts About SectorLisp Inspired by TORLISP January 11, 2022.md",
+    "Notes from TORLISP Meeting Jan 11, 2022.md",
+    "Anatomy of Lisp.md",
+    "Hacker Language.md",
+    "Easy UX or Consistency?.md",
+    "Untitled.md",
+    "Garbage Collection.md"
   ]
 }

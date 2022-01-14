@@ -1,3 +1,5 @@
+# Animation
+[Garbage Collection in SectorLisp](https://guitarvydas.github.io/2022/01/13/GC-in-SectorLisp.html)
 # Code
 From [code](https://justine.lol/sectorlisp2/#listing).
 
