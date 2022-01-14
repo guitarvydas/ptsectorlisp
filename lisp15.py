@@ -47,14 +47,53 @@ def putl (v):
   listmemory [index] = v
   listindex = - (index + 1)
 
-atomindex = 0
-atommemory = []
+atommemory = ['N', 2,
+'I', 4,
+'L', 0,
+'Q', 8,
+'U', 10,
+'O', 12,
+'T', 14,
+'E', 0,
+'E', 18,
+'Q', 0,
+'C', 22,
+'O', 24,
+'N', 26,
+'D', 0,
+'C', 30,
+'O', 32,
+'N', 34,
+'S', 0,
+'A', 38,
+'T', 40,
+'O', 42,
+'M', 0,
+'C', 46,
+'A', 48,
+'R', 0,
+'C', 52,
+'D', 54,
+'R', 0,
+0, 0,
+0, 0,
+0, 0,
+0, 0,
+0, 0,
+0, 0,
+0, 0,
+0, 0,
+0]
+
+atomindex = 56
 
 def puta (c, cdrValue):
   # put (c . cdrValue) into atom memory
   global atomindex
   global atommemory
   assert (atomindex > 0)
+  assert (cdrValue == 0 or cdrValue == atomindex + 1)
+  assert ((2 + atomindex) < atommemory.__len__ ())
   atommemory [atomindex] = c
   atomindex += 1
   atommemory [atomindex] = cdrValue
@@ -303,6 +342,7 @@ def ReadAtom (input):
   while (not terminated (input)):
     ReadAtom1 (input)
   nila ()
+  return input
 
 def ReadAtom1 (input):
   cs = input["characters"]
@@ -315,7 +355,8 @@ def ReadAtom1 (input):
     return input
   else:
     pokeAtom (cs [index])
-    input["index"] = input["index"] + 1 
+    input["index"] = input["index"] + 1
+    ReadAtom1 (input)
 
 def terminated (input):
   if (-1 == input["index"]):
@@ -327,7 +368,7 @@ def terminated (input):
     return False
 
 def pokeAtom (c):
-  puta (c)
+  puta (c, atomindex + 1)
 
 def ReadList (input):
   assert False
@@ -341,4 +382,5 @@ def ReadList (input):
 #lispPrint (r)
 #terpri ()
 
-Read ("hello")
+Read ("B")
+pr (0)
